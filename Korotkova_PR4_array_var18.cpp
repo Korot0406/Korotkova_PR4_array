@@ -68,43 +68,14 @@ void problem1(){
 // встречаются в исходном массиве ровно два раза.
 void problem2(){
     int n = IntEnterNumber("Введите размер массива: ");
-    int n1 = 0;
 
     int* A = new int[n];
-    int* B_ = new int[n];
+    int* B = new int[n];
+    int n1 = 0;
 
     for (int i = 0; i < n; i++){
         string s = "Введите " + to_string(i) + "-й элемент массива: ";
         A[i] = IntEnterNumber(s);
-    }
-
-    int index = 0;
-    for (int i = 0; i < n - 2; i++){
-        int k = 1;
-        for (int j = i; j < n-1; j++){
-            if (A[j] == A[j+1]){
-                k++;
-            }
-        }
-        if (k == 2){
-            int k_ = 0;
-            for (int i1 = 0; i1 < n; i1++){
-                if (A[i] == B_[i1]){
-                    ++k_;
-                    break;
-                }
-            }
-            if (k_ == 0){
-                B_[index++] = A[i];
-                ++n1;
-            }
-        }
-    }
-
-    int* B = new int[n1];
-
-    for (int i = 0; i < n1; i++){
-        B[i] = B_[i];
     }
 
     cout << "\nИсходный массив:\n";
@@ -112,15 +83,37 @@ void problem2(){
         cout << A[i] << " ";
     }
 
-    cout << "\nПреобразованный массив:\n";
+    for (int i = 0; i < n; i++){
+        bool added = false;
+        for (int j = 0; j < n1; j++) {
+            if (B[j] == A[i]) {
+                added = true;
+                break;
+            }
+        }
+        if (added) continue;
+
+        int count = 0;
+        for (int k = 0; k < n; k++) {
+            if (A[k] == A[i]) {
+                count++;
+            }
+        }
+
+        if (count == 2) {
+            B[n1] = A[i];
+            n1++;
+        }
+
+    }
+    
+    cout << "\nмассив, содержащий элементы, которые встречаются в исходном массиве ровно два раза:\n";
     for (int i = 0; i < n1; i++){
         cout << B[i] << " ";
     }
-    cout << "\n";
-    
+
     delete[] A;
     delete[] B;
-    delete[] B_;
 }
 
 // Задание 3. Дан массив. Найдите подмассив заданной длины с минимальной суммой элементов
