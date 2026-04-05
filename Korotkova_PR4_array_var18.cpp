@@ -67,12 +67,124 @@ void problem1(){
 // Задание 2. Дан массив. Сформируйте новый массив, содержащий элементы, которые
 // встречаются в исходном массиве ровно два раза.
 void problem2(){
+    int n = IntEnterNumber("Введите размер массива: ");
+    int n1 = 0;
 
+    int* A = new int[n];
+    int* B_ = new int[n];
+
+    for (int i = 0; i < n; i++){
+        string s = "Введите " + to_string(i) + "-й элемент массива: ";
+        A[i] = IntEnterNumber(s);
+    }
+
+    int index = 0;
+    for (int i = 0; i < n - 2; i++){
+        int k = 1;
+        for (int j = i; j < n-1; j++){
+            if (A[j] == A[j+1]){
+                k++;
+            }
+        }
+        if (k == 2){
+            int k_ = 0;
+            for (int i1 = 0; i1 < n; i1++){
+                if (A[i] == B_[i1]){
+                    ++k_;
+                    break;
+                }
+            }
+            if (k_ == 0){
+                B_[index++] = A[i];
+                ++n1;
+            }
+        }
+    }
+
+    int* B = new int[n1];
+
+    for (int i = 0; i < n1; i++){
+        B[i] = B_[i];
+    }
+
+    cout << "\nИсходный массив:\n";
+    for (int i = 0; i < n; i++){
+        cout << A[i] << " ";
+    }
+
+    cout << "\nПреобразованный массив:\n";
+    for (int i = 0; i < n1; i++){
+        cout << B[i] << " ";
+    }
+    cout << "\n";
+    
+    delete[] A;
+    delete[] B;
+    delete[] B_;
 }
 
 // Задание 3. Дан массив. Найдите подмассив заданной длины с минимальной суммой элементов
 void problem3(){
+    int n = IntEnterNumber("Введите размер массива: ");
+    while(n < 1){
+        n = IntEnterNumber("Введите размер массива: ");
+    }
+    int m = IntEnterNumber("Введите размер подмассива: ");
+    while (m < 1 || m > n){
+        m = IntEnterNumber("Введите размер подмассива: ");
+    }
+    int* A = new int[n];
+    int* A_ = new int[m];
 
+    int i = 0;
+    srand(time(0));
+    while (i < n){
+        *(A + i) = rand() % 20 - 10;
+        ++i;
+    }
+
+    cout << "Вывод массива:\n";
+    i = 0;
+    while (i < n){
+        cout << *(A + i) << " ";
+        i++;
+    }
+    cout << "\n";
+
+    int min = 100;
+    i = 0;
+    while (i < n - m + 1){
+        int sum = 0;
+        int j = i;
+        int index_start = j;
+        int k = 0;
+        while (k < m){
+            sum = sum + *(A + j);
+            j++;
+            k++;
+        }
+        cout << "Сумма элементов, начиная с " << i << " = " << sum << "\n";
+
+        if (min > sum){
+            min = sum;
+            int i_ = 0;
+            while (i_ < m){
+                A_[i_] = *(A + index_start + i_);
+                i_++;
+            }
+        }
+        i++;
+    }
+
+    cout << "Вывод подмассива с минимальной суммой элементов:\n";
+    i = 0;
+    while (i < m){
+        cout << *(A_ + i) << " ";
+        i++;
+    }
+    cout << "\n";
+    delete[] A;
+    delete[] A_;
 }
 
 // Структура меню
@@ -85,9 +197,9 @@ struct MenuItem{
 int main(){
     setlocale(LC_ALL, "Russian");
     map<int, MenuItem> menu = {
-        {1, {"Problem 1", problem1}},
-        {2, {"Problem 2", problem2}},
-        {3, {"Problem 3", problem3}}
+        {1, {"Problem 1. Найти длину самой длинной последовательности строго возрастающих элементов в заданном массиве.", problem1}},
+        {2, {"Problem 2. Сформировать новый массив, содержащий элементы, которые встречаются в исходном массиве ровно два раза.", problem2}},
+        {3, {"Problem 3. Найти подмассив заданной длины с минимальной суммой элементов.", problem3}}
     };
 
     int choice = 0;
